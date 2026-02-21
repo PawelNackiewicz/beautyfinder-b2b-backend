@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: beautyfinder
+      POSTGRES_USER: beautyfinder
+      POSTGRES_PASSWORD: beautyfinder
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U beautyfinder"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/beautyfinder
+      DATABASE_USERNAME: beautyfinder
+      DATABASE_PASSWORD: beautyfinder
+      JWT_SECRET: ${JWT_SECRET:-super-secret-jwt-key-for-docker-compose-min-256-bits!!}
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@beautyfinder.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    profiles:
+      - tools
+
+volumes:
+  postgres_data:
