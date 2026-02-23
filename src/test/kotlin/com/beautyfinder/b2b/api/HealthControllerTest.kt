@@ -1,22 +1,37 @@
 package com.beautyfinder.b2b.api
 
+import com.beautyfinder.b2b.config.JwtAuthenticationFilter
+import com.beautyfinder.b2b.config.JwtService
+import com.beautyfinder.b2b.config.SecurityConfig
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.security.test.context.support.WithMockUser
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Import
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(HealthController::class)
+@Import(HealthControllerTest.MockConfig::class, SecurityConfig::class)
 class HealthControllerTest {
+
+    @TestConfiguration
+    class MockConfig {
+        @Bean
+        fun jwtService(): JwtService = io.mockk.mockk()
+
+        @Bean
+        fun jwtAuthenticationFilter(jwtService: JwtService): JwtAuthenticationFilter =
+            JwtAuthenticationFilter(jwtService)
+    }
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Test
-    @WithMockUser
     fun `GET health returns 200 and status UP`() {
         mockMvc.perform(get("/api/health"))
             .andExpect(status().isOk)

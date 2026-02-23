@@ -29,6 +29,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -43,6 +44,9 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
+
+    // CSV
+    implementation("org.apache.commons:commons-csv:1.12.0")
 
     // OpenAPI / Swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdocVersion")
