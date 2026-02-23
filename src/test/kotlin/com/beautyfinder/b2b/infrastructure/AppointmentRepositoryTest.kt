@@ -1,6 +1,6 @@
 package com.beautyfinder.b2b.infrastructure
 
-import com.beautyfinder.b2b.domain.Client
+import com.beautyfinder.b2b.domain.client.Client
 import com.beautyfinder.b2b.domain.employee.Employee
 import com.beautyfinder.b2b.domain.Salon
 import com.beautyfinder.b2b.domain.Service
@@ -76,7 +76,7 @@ class AppointmentRepositoryTest {
         variant = ServiceVariant(serviceId = service.id!!, name = "Standard", durationMinutes = 60, price = BigDecimal("50.00"))
         entityManager.persist(variant)
 
-        client = Client(salonId = salon.id!!, name = "Jane Doe", phone = "+48123456789")
+        client = Client(salonId = salon.id!!, firstName = "Jane", lastName = "Doe", phone = "+48123456789")
         entityManager.persist(client)
 
         entityManager.flush()

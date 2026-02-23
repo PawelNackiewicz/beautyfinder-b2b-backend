@@ -30,7 +30,7 @@ class AppointmentMapperImpl(
             id = appointment.id!!,
             salonId = appointment.salonId,
             clientId = appointment.clientId,
-            clientName = client?.name ?: "Unknown",
+            clientName = client?.let { "${it.firstName} ${it.lastName}" } ?: "Unknown",
             employeeId = appointment.employeeId,
             employeeName = employee?.displayName ?: "Unknown",
             variantId = appointment.variantId,

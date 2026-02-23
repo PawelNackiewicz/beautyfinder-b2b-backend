@@ -1,6 +1,6 @@
 package com.beautyfinder.b2b.application.employee
 
-import com.beautyfinder.b2b.domain.Client
+import com.beautyfinder.b2b.domain.client.Client
 import com.beautyfinder.b2b.domain.Salon
 import com.beautyfinder.b2b.domain.Service
 import com.beautyfinder.b2b.domain.ServiceVariant
@@ -84,7 +84,7 @@ class GetAvailableSlotsIntegrationTest {
         variant = ServiceVariant(serviceId = service.id!!, name = "Standard", durationMinutes = 60, price = BigDecimal("50.00"))
         entityManager.persist(variant)
 
-        client = Client(salonId = salon.id!!, name = "Jane", phone = "+48123456789")
+        client = Client(salonId = salon.id!!, firstName = "Jane", lastName = "Doe", phone = "+48123456789")
         entityManager.persist(client)
 
         // Mon-Fri 9:00-17:00

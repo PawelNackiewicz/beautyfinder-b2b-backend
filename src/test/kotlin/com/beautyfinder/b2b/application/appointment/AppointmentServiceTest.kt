@@ -13,7 +13,7 @@ import com.beautyfinder.b2b.domain.appointment.InvalidStatusTransitionException
 import com.beautyfinder.b2b.domain.schedule.WeeklySchedule
 import com.beautyfinder.b2b.infrastructure.AppointmentRepository
 import com.beautyfinder.b2b.infrastructure.EmployeeRepository
-import com.beautyfinder.b2b.infrastructure.SalonRepository
+import com.beautyfinder.b2b.infrastructure.salon.SalonRepository
 import com.beautyfinder.b2b.infrastructure.ScheduleExceptionRepository
 import com.beautyfinder.b2b.infrastructure.ServiceVariantRepository
 import com.beautyfinder.b2b.infrastructure.WeeklyScheduleRepository
