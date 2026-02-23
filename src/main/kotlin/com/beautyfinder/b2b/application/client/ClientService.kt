@@ -24,8 +24,8 @@ import com.beautyfinder.b2b.infrastructure.EmployeeRepository
 import com.beautyfinder.b2b.infrastructure.GdprConsentRepository
 import com.beautyfinder.b2b.infrastructure.LoyaltyBalanceRepository
 import com.beautyfinder.b2b.infrastructure.LoyaltyTransactionRepository
-import com.beautyfinder.b2b.infrastructure.ServiceRepository
-import com.beautyfinder.b2b.infrastructure.ServiceVariantRepository
+import com.beautyfinder.b2b.infrastructure.service.ServiceRepository
+import com.beautyfinder.b2b.infrastructure.service.ServiceVariantRepository
 import com.beautyfinder.b2b.domain.client.ClientSensitiveData
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.csv.CSVFormat
@@ -179,7 +179,11 @@ class ClientService(
         return toSummaryDto(saved, salonId)
     }
 
-    fun getSensitiveData(clientId: UUID, salonId: UUID): SensitiveDataPayload {
+    @com.beautyfinder.b2b.application.audit.Audited(
+        action = com.beautyfinder.b2b.domain.audit.AuditAction.CLIENT_SENSITIVE_DATA_ACCESSED,
+        resourceType = "CLIENT",
+    )
+    fun getSensitiveData(@com.beautyfinder.b2b.application.audit.AuditResourceId clientId: UUID, salonId: UUID): SensitiveDataPayload {
         findClient(clientId, salonId)
 
         val sensitiveData = clientSensitiveDataRepository.findByClientId(clientId)
@@ -193,7 +197,11 @@ class ClientService(
     }
 
     @Transactional
-    fun upsertSensitiveData(clientId: UUID, payload: SensitiveDataPayload, salonId: UUID) {
+    @com.beautyfinder.b2b.application.audit.Audited(
+        action = com.beautyfinder.b2b.domain.audit.AuditAction.CLIENT_SENSITIVE_DATA_UPDATED,
+        resourceType = "CLIENT",
+    )
+    fun upsertSensitiveData(@com.beautyfinder.b2b.application.audit.AuditResourceId clientId: UUID, payload: SensitiveDataPayload, salonId: UUID) {
         findClient(clientId, salonId)
 
         val json = objectMapper.writeValueAsString(payload)
@@ -217,7 +225,11 @@ class ClientService(
     }
 
     @Transactional
-    fun recordGdprConsent(clientId: UUID, request: GdprConsentRequest, salonId: UUID): GdprConsentDto {
+    @com.beautyfinder.b2b.application.audit.Audited(
+        action = com.beautyfinder.b2b.domain.audit.AuditAction.GDPR_CONSENT_RECORDED,
+        resourceType = "CLIENT",
+    )
+    fun recordGdprConsent(@com.beautyfinder.b2b.application.audit.AuditResourceId clientId: UUID, request: GdprConsentRequest, salonId: UUID): GdprConsentDto {
         findClient(clientId, salonId)
 
         if (request.granted) {
@@ -261,7 +273,11 @@ class ClientService(
     }
 
     @Transactional
-    fun addToBlacklist(clientId: UUID, reason: String, createdBy: UUID, salonId: UUID) {
+    @com.beautyfinder.b2b.application.audit.Audited(
+        action = com.beautyfinder.b2b.domain.audit.AuditAction.CLIENT_BLACKLISTED,
+        resourceType = "CLIENT",
+    )
+    fun addToBlacklist(@com.beautyfinder.b2b.application.audit.AuditResourceId clientId: UUID, reason: String, createdBy: UUID, salonId: UUID) {
         val client = findClient(clientId, salonId)
 
         val existing = blacklistRepository.findByClientIdAndSalonIdAndRemovedAtIsNull(clientId, salonId)

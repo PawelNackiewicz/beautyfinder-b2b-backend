@@ -3,8 +3,8 @@ package com.beautyfinder.b2b.application.appointment
 import com.beautyfinder.b2b.domain.appointment.Appointment
 import com.beautyfinder.b2b.infrastructure.ClientRepository
 import com.beautyfinder.b2b.infrastructure.EmployeeRepository
-import com.beautyfinder.b2b.infrastructure.ServiceRepository
-import com.beautyfinder.b2b.infrastructure.ServiceVariantRepository
+import com.beautyfinder.b2b.infrastructure.service.ServiceRepository
+import com.beautyfinder.b2b.infrastructure.service.ServiceVariantRepository
 import org.springframework.stereotype.Component
 
 interface AppointmentMapper {

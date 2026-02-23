@@ -18,7 +18,7 @@ import com.beautyfinder.b2b.domain.billing.SubscriptionStatus
 import com.beautyfinder.b2b.infrastructure.AppointmentRepository
 import com.beautyfinder.b2b.infrastructure.ClientRepository
 import com.beautyfinder.b2b.infrastructure.EmployeeRepository
-import com.beautyfinder.b2b.infrastructure.ServiceRepository
+import com.beautyfinder.b2b.infrastructure.service.ServiceRepository
 import com.beautyfinder.b2b.infrastructure.billing.BillingPeriodReportRepository
 import com.beautyfinder.b2b.infrastructure.billing.InvoiceLineItemRepository
 import com.beautyfinder.b2b.infrastructure.billing.InvoiceRepository

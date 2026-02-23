@@ -2,8 +2,8 @@ package com.beautyfinder.b2b.application.employee
 
 import com.beautyfinder.b2b.domain.client.Client
 import com.beautyfinder.b2b.domain.Salon
-import com.beautyfinder.b2b.domain.Service
-import com.beautyfinder.b2b.domain.ServiceVariant
+import com.beautyfinder.b2b.domain.service.Service
+import com.beautyfinder.b2b.domain.service.ServiceVariant
 import com.beautyfinder.b2b.domain.User
 import com.beautyfinder.b2b.domain.UserRole
 import com.beautyfinder.b2b.domain.appointment.Appointment
@@ -81,7 +81,7 @@ class GetAvailableSlotsIntegrationTest {
         val service = Service(salonId = salon.id!!, name = "Haircut", category = "Hair")
         entityManager.persist(service)
 
-        variant = ServiceVariant(serviceId = service.id!!, name = "Standard", durationMinutes = 60, price = BigDecimal("50.00"))
+        variant = ServiceVariant(serviceId = service.id!!, salonId = salon.id!!, name = "Standard", durationMinutes = 60, price = BigDecimal("50.00"))
         entityManager.persist(variant)
 
         client = Client(salonId = salon.id!!, firstName = "Jane", lastName = "Doe", phone = "+48123456789")

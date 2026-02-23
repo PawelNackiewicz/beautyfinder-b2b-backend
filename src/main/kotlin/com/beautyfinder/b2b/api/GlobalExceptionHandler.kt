@@ -1,5 +1,13 @@
 package com.beautyfinder.b2b.api
 
+import com.beautyfinder.b2b.domain.service.CannotArchiveServiceWithActiveAppointmentsException
+import com.beautyfinder.b2b.domain.service.DuplicateCategoryNameException
+import com.beautyfinder.b2b.domain.service.DuplicateServiceNameException
+import com.beautyfinder.b2b.domain.service.InvalidDurationException
+import com.beautyfinder.b2b.domain.service.InvalidPriceException
+import com.beautyfinder.b2b.domain.service.ServiceCategoryNotFoundException
+import com.beautyfinder.b2b.domain.service.ServiceNotFoundException
+import com.beautyfinder.b2b.domain.service.ServiceVariantNotFoundException
 import com.beautyfinder.b2b.domain.salon.InvalidCancellationWindowException
 import com.beautyfinder.b2b.domain.salon.InvalidLoyaltyConfigException
 import com.beautyfinder.b2b.domain.salon.InvalidOpeningHoursException
@@ -420,6 +428,88 @@ class GlobalExceptionHandler {
             timestamp = OffsetDateTime.now(),
             status = 409,
             message = ex.message ?: "Billing error",
+            path = request.requestURI,
+        )
+
+    // -- Service Module Exceptions --
+
+    @ExceptionHandler(ServiceNotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun handleServiceNotFound(ex: ServiceNotFoundException, request: HttpServletRequest): ErrorResponse =
+        ErrorResponse(
+            timestamp = OffsetDateTime.now(),
+            status = 404,
+            message = ex.message ?: "Service not found",
+            path = request.requestURI,
+        )
+
+    @ExceptionHandler(ServiceVariantNotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun handleServiceVariantNotFound(ex: ServiceVariantNotFoundException, request: HttpServletRequest): ErrorResponse =
+        ErrorResponse(
+            timestamp = OffsetDateTime.now(),
+            status = 404,
+            message = ex.message ?: "Service variant not found",
+            path = request.requestURI,
+        )
+
+    @ExceptionHandler(ServiceCategoryNotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun handleServiceCategoryNotFound(ex: ServiceCategoryNotFoundException, request: HttpServletRequest): ErrorResponse =
+        ErrorResponse(
+            timestamp = OffsetDateTime.now(),
+            status = 404,
+            message = ex.message ?: "Service category not found",
+            path = request.requestURI,
+        )
+
+    @ExceptionHandler(DuplicateServiceNameException::class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    fun handleDuplicateServiceName(ex: DuplicateServiceNameException, request: HttpServletRequest): ErrorResponse =
+        ErrorResponse(
+            timestamp = OffsetDateTime.now(),
+            status = 409,
+            message = ex.message ?: "Duplicate service name",
+            path = request.requestURI,
+        )
+
+    @ExceptionHandler(DuplicateCategoryNameException::class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    fun handleDuplicateCategoryName(ex: DuplicateCategoryNameException, request: HttpServletRequest): ErrorResponse =
+        ErrorResponse(
+            timestamp = OffsetDateTime.now(),
+            status = 409,
+            message = ex.message ?: "Duplicate category name",
+            path = request.requestURI,
+        )
+
+    @ExceptionHandler(CannotArchiveServiceWithActiveAppointmentsException::class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    fun handleCannotArchiveService(ex: CannotArchiveServiceWithActiveAppointmentsException, request: HttpServletRequest): ErrorResponse =
+        ErrorResponse(
+            timestamp = OffsetDateTime.now(),
+            status = 422,
+            message = ex.message ?: "Cannot archive service with active appointments",
+            path = request.requestURI,
+        )
+
+    @ExceptionHandler(InvalidDurationException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleInvalidDuration(ex: InvalidDurationException, request: HttpServletRequest): ErrorResponse =
+        ErrorResponse(
+            timestamp = OffsetDateTime.now(),
+            status = 400,
+            message = "Duration must be multiple of 5, between 5 and 480 minutes",
+            path = request.requestURI,
+        )
+
+    @ExceptionHandler(InvalidPriceException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleInvalidPrice(ex: InvalidPriceException, request: HttpServletRequest): ErrorResponse =
+        ErrorResponse(
+            timestamp = OffsetDateTime.now(),
+            status = 400,
+            message = ex.message ?: "Invalid price",
             path = request.requestURI,
         )
 }

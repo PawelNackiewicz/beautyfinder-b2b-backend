@@ -12,7 +12,7 @@ import com.beautyfinder.b2b.infrastructure.AppointmentRepository
 import com.beautyfinder.b2b.infrastructure.EmployeeRepository
 import com.beautyfinder.b2b.infrastructure.salon.SalonRepository
 import com.beautyfinder.b2b.infrastructure.ScheduleExceptionRepository
-import com.beautyfinder.b2b.infrastructure.ServiceVariantRepository
+import com.beautyfinder.b2b.infrastructure.service.ServiceVariantRepository
 import com.beautyfinder.b2b.infrastructure.WeeklyScheduleRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -70,6 +70,10 @@ class AppointmentService(
     }
 
     @Transactional
+    @com.beautyfinder.b2b.application.audit.Audited(
+        action = com.beautyfinder.b2b.domain.audit.AuditAction.APPOINTMENT_CREATED,
+        resourceType = "APPOINTMENT",
+    )
     fun createAppointment(request: CreateAppointmentRequest, salonId: UUID): AppointmentDto {
         val variant = serviceVariantRepository.findById(request.variantId)
             .orElseThrow { IllegalArgumentException("ServiceVariant ${request.variantId} not found") }
@@ -119,8 +123,12 @@ class AppointmentService(
     }
 
     @Transactional
+    @com.beautyfinder.b2b.application.audit.Audited(
+        action = com.beautyfinder.b2b.domain.audit.AuditAction.APPOINTMENT_STATUS_CHANGED,
+        resourceType = "APPOINTMENT",
+    )
     fun updateAppointmentStatus(
-        id: UUID,
+        @com.beautyfinder.b2b.application.audit.AuditResourceId id: UUID,
         newStatus: AppointmentStatus,
         reason: String?,
         salonId: UUID,

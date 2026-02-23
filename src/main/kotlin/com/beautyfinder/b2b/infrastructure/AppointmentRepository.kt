@@ -1,6 +1,6 @@
 package com.beautyfinder.b2b.infrastructure
 
-import com.beautyfinder.b2b.domain.ServiceVariant
+import com.beautyfinder.b2b.domain.service.ServiceVariant
 import com.beautyfinder.b2b.domain.appointment.Appointment
 import com.beautyfinder.b2b.domain.appointment.AppointmentStatus
 import org.springframework.data.domain.Page

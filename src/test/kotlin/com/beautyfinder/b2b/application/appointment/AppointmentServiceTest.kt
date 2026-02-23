@@ -2,7 +2,7 @@ package com.beautyfinder.b2b.application.appointment
 
 import com.beautyfinder.b2b.domain.employee.Employee
 import com.beautyfinder.b2b.domain.Salon
-import com.beautyfinder.b2b.domain.ServiceVariant
+import com.beautyfinder.b2b.domain.service.ServiceVariant
 import com.beautyfinder.b2b.domain.appointment.Appointment
 import com.beautyfinder.b2b.domain.appointment.AppointmentConflictException
 import com.beautyfinder.b2b.domain.appointment.AppointmentSource
@@ -15,7 +15,7 @@ import com.beautyfinder.b2b.infrastructure.AppointmentRepository
 import com.beautyfinder.b2b.infrastructure.EmployeeRepository
 import com.beautyfinder.b2b.infrastructure.salon.SalonRepository
 import com.beautyfinder.b2b.infrastructure.ScheduleExceptionRepository
-import com.beautyfinder.b2b.infrastructure.ServiceVariantRepository
+import com.beautyfinder.b2b.infrastructure.service.ServiceVariantRepository
 import com.beautyfinder.b2b.infrastructure.WeeklyScheduleRepository
 import io.mockk.every
 import io.mockk.mockk
@@ -70,6 +70,7 @@ class AppointmentServiceTest {
         price: BigDecimal = BigDecimal("100.00"),
     ) = ServiceVariant(
         serviceId = UUID.randomUUID(),
+        salonId = UUID.randomUUID(),
         name = "Standard",
         durationMinutes = durationMinutes,
         price = price,
